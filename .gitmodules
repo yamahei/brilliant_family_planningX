@@ -1,0 +1,6 @@
+[submodule "gfm1"]
+	path = gfm1
+	url = https://github.com/yamahei/brilliant_family_planning.git
+[submodule "gfm3"]
+	path = gfm3
+	url = https://github.com/yamahei/brilliant_family_planning3.git
