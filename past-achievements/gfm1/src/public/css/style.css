@@ -1,0 +1,56 @@
+
+/*
+    Loader
+*/
+.loader-icon {
+    display: inline-block;
+    font-size: 5em;
+    animation: rotation_frames 1.2s linear infinite;
+    padding-right: 0.03em;
+}
+
+@keyframes rotation_frames {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/*
+  transition: https://v3.ja.vuejs.org/guide/migration/transition.html#_3-x-%E3%81%A6%E3%82%99%E3%81%AE%E6%9B%B4%E6%96%B0
+*/
+.v-enter-from, .v-leave-to { opacity: 0; }
+.v-enter-to, .v-leave-from { opacity: 1; }
+.v-enter-active, .v-leave-active { transition: opacity 0.1s; }
+
+
+/* bfp-show-at-hover */
+:hover > .bfp-show-at-hover {
+    display: block;
+}
+:not(:hover) > .bfp-show-at-hover {
+    display: none;
+}
+
+/* Modal fluid */
+@media screen and (min-width: 769px) {
+    /*
+     * original is:https://github.com/jgthms/bulma/blob/master/css/bulma.css#L5338
+     */
+    .modal.bfp-fluid .modal-content,
+    .modal.bfp-fluid .modal-card {
+        margin: 0 auto;
+        max-height: calc(100vh - 40px);
+        width: calc(100vw - 120px);
+        min-width: 640px;
+    }
+}
+
+/* vertical alignment for form *override! */
+.field.is-grouped {
+    align-items: center;
+}
+
+
+/* text-alignment for input[type='number'] *override! */
+input[type='number'] {
+    text-align: right;
+}

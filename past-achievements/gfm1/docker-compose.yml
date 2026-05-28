@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  db:
+    image: postgres
+    # ports:
+    #   - "54321:54321"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data:rw
+      - ./postgres/init:/docker-entrypoint-initdb.d:ro
+    environment:
+      POSTGRES_USER: 'postgres' #TODO: get from env
+      POSTGRES_PASSWORD: 'postgres' #TODO: get from env
+      POSTGRES_DB: 'lifeplan' #TODO: get from env
+    restart: always
+
+  app:
+    build: .
+    # image: rails
+    container_name: 'app'
+    command: bundle exec rackup -o 0.0.0.0 -p 80 config.ru
+    ports:
+      - "80:80"
+    # environment:
+    #   VIRTUAL_PORT: 80
+    volumes:
+      - ./src:/app/src
+    depends_on:
+      - db
+    restart: always

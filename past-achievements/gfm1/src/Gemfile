@@ -1,0 +1,29 @@
+# SinatraにBundler導入〜起動まで
+# https://qiita.com/nochifuchi/items/be5d8d425f8a6c5b92df
+
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
+
+gem "rake"
+gem "puma"
+
+gem "rack-contrib"
+gem "sinatra"
+gem 'sinatra-validation'
+gem "sinatra-contrib"
+gem "sinatra-reloader"
+gem "tux"# use sinatra on terminal...?
+
+gem "activerecord"
+gem "sinatra-activerecord"
+gem "pg"
+
+# RailsじゃないRspec3環境を構築する方法
+# https://qiita.com/yusabana/items/db44b81bdddf6ed0e9f5
+gem "rspec", ">= 3.0.0"#bundle exec rspec --init
+
+
+#gem 'ym_range', :git => 'git://github.com/yamahei/ym_range.git'

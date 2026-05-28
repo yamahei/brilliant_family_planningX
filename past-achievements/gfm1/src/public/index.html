@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text x=%2250%%22 y=%2250%%22 style=%22dominant-baseline:central;text-anchor:middle;font-size:90px;%22>👨‍👩‍👧‍👦</text></svg>">
+    <title>明るい👨‍👩‍👧‍👦計画</title>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/bulmaswatch/lumen/bulmaswatch.min.css"> -->
+    <link rel="stylesheet" href="css/lib/bulma@0.9.4.css" />
+    <link rel="stylesheet" href="css/lib/bulma-switch.min.css" />
+    <link rel="stylesheet" href="css/lib/bulma-tooltip.min.css" />
+    <link rel="stylesheet" href="css/lib/bulmaswatch.lumen@0.4.2.css" />
+    <link rel="stylesheet" href="css/smart-font.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <div id="loader" class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content" style="overflow: visible; text-align: center;">
+            <div class="loader-icon">↻</div>
+        </div>
+    </div>
+
+    <div id="app">
+        <!-- header -->
+        <section class="hero is-small is-primary" style="margin-bottom: 2rem;">
+            <div class="hero-body">
+
+                <nav class="level">
+                    <!-- Left side -->
+                    <div class="level-left">
+                        <div class="level-item">
+                            <div>
+                                <p class="title is-spaced">
+                                    <router-link to="/">明るい👨‍👩‍👧‍👦計画</router-link>
+                                </p>
+                                <p class="subtitle">
+                                    Brilliant family planning
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="level-right">
+                        <p class="level-item">
+                            <nav id="navigator" class="breadcrumb is-pulled-right" aria-label="breadcrumbs">
+                                <ul>
+                                    <!-- <li><router-link to="/">👨‍👩‍👧‍👦 ホーム</router-link></li> -->
+                                    <li><router-link to="/rule">💰 ルール</router-link></li>
+                                    <li><router-link to="/calendar">📅 カレンダー</router-link></li>
+                                </ul>
+                            </nav>
+                        </p>
+                    </div>
+                </nav>
+
+            </div>
+        </section>
+
+
+        <!-- body -->
+        <div class="container is-fluid" style="min-height: calc(100vh - 2rem - 113px - 168px);">
+            <div class="content">
+                <router-view></router-view>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <div class="footer" id="footer">
+            Brilliant family planning &copy; 2021 yamahei
+        </div>
+
+    </div>
+
+
+    <!--
+        Scripts
+    -->
+    <!-- lib -->
+    <!-- <script src="https://unpkg.com/vue@3"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@next"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader"></script> -->
+    <!-- <script src="https://unpkg.com/vue-router@4"></script> -->
+    <!-- <script src="https://unpkg.com/axios@0.24.0"></script> -->
+    <script src="js/lib/vue@3.2.36.js"></script>
+    <script src="js/lib/vue-router@4.1.6.js"></script>
+    <script src="js/lib/vue3-sfc-loader@0.8.4.js"></script>
+    <script src="js/lib/axios.min.js"></script>
+    <!-- biz -->
+    <script src="js/biz.js"></script>
+    <!-- app -->
+    <script src="js/index.js"></script>
+</body>
+</html>
+
+<!--
+https://basukin.blog/2021/08/23/vue3-cdn%E3%81%A7%E3%82%82sfc%E3%82%92%E4%BD%BF%E3%81%84%E3%81%9F%E3%81%84/
+https://github.com/FranckFreiburger/vue3-sfc-loader
+const { loadModule } = window['vue3-sfc-loader'];
+-->
