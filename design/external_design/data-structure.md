@@ -13,16 +13,26 @@ graph TB
     Bank --> Balance
 ```
 
+```json
+{
+    Entities: [],// Entity[]
+    Banks: [],// Bank[]
+    DefaultBankId: 123,// Number
+}
+```
+
 ルール
 ----
 
 ### 主体(`Entity`)
 ```json
 {
-    Id: 123,// Number,
+    Id: 1,// Number,
     SortOrder: 1,// Number
     Name: "カテゴリ",// String,
     Memo: "説明",// String,
+    EntityFrom: "2022-05",// String
+    EntityTo: "2026-05",// String
     Categories: [],// Category[],
     PresetEntityName: "PresetA:EntityB",// String | Null
     PresetArguments: [],// any[] | Null <-TODO: 色んな型があるので今はまだ決めきれない
@@ -32,7 +42,7 @@ graph TB
 ### カテゴリ(`Category`)
 ```json
 {
-    Id: 456,// Number,
+    Id: 11,// Number,
     SortOrder: 1,// Number
     Name: "カテゴリ",// String,
     Memo: "説明",// String,
@@ -44,10 +54,12 @@ graph TB
 ### 収支項目(`Event`)
 ```json
 {
-    Id: 789,// Number,
+    Id: 111,// Number,
     SortOrder: 1,// Number
     Name: "イベント",// String,
     Memo: "説明",// String,
+    EventFrom: "2022-05",// String
+    EventTo: "2026-05",// String
     Amount: 1000,// Number,
     Rules: [],// Rule[],
     PresetEventName: "PresetA:EntityB:CategoryC:EventD"//String | Null
@@ -58,6 +70,8 @@ graph TB
    例）突発的な支出（等の記録）
     ```json
     {
+        Id: 1111,// Number,
+        SortOrder: 1,// Number
         Type: "ONCE_YEARMONTHS",// String
         Not: false// Bool
         YearMonth: "2026-05",// String
@@ -68,6 +82,8 @@ graph TB
    例）月給
     ```json
     {
+        Id: 1112,// Number,
+        SortOrder: 1,// Number
         Type: "EVERY_MONTH",// String
         Not: false// Bool
         PresetRuleName: "PresetA:EntityB:CategoryC:EventD:Rule2"//String | Null
@@ -77,6 +93,8 @@ graph TB
    例）ボーナス
     ```json
     {
+        Id: 1112,// Number,
+        SortOrder: 1,// Number
         Type: "SOME_MONTHS",// String
         Not: false //Bool
         Months: [5, 7, 9],// Number[]
@@ -87,6 +105,8 @@ graph TB
    例）車検
     ```json
     {
+        Id: 1114,// Number,
+        SortOrder: 1,// Number
         Type: "SOME_YEARMONTHS",// String
         Not: false //Bool
         StartYear: 2026,// Number,
@@ -97,28 +117,37 @@ graph TB
     ```
 
 ### プリセット(`Preset`)
+- プリセットを持つ主体を新規作成するときにコピーするデータ
+- Idは新規採番
+- From-Toはプリセット引数から算出する
 ```json
 {
-    Id: 789,// Number,
+    Id: 2,// Number,
     Name: "イベント",// String,
     Memo: "プリセット",// String,
     Entities: [{
-        Id: 123,// Number,
+        Id: 21,// Number,
         SortOrder: 1,// Number
         Name: "カテゴリ",// String,
         Memo: "説明",// String,
+        EntityFrom: "2022-05",// String
+        EntityTo: "2026-05",// String
         Categories: [{
-            Id: 456,// Number,
+            Id: 211,// Number,
             SortOrder: 1,// Number
             Name: "カテゴリ",// String,
             Memo: "説明",// String,
             Events: [{
-                Id: 789,// Number,
+                Id: 2111,// Number,
                 SortOrder: 1,// Number
                 Name: "イベント",// String,
                 Memo: "説明",// String,
+                EventFrom: "2022-05",// String
+                EventTo: "2026-05",// String
                 Amount: 1000,// Number,
                 Rules: [{
+                    Id: 21111,// Number,
+                    SortOrder: 1,// Number
                     Type: "ONCE_YEARMONTHS",// String
                     Not: false// Bool
                     YearMonth: "2026-05",// String
@@ -135,6 +164,8 @@ graph TB
 ```
 
 ### プリセット引数(`PresetArgumentHoge`)
+- プリセットのFromToを決定するために必要な情報
+- 主体ごとに型が異なる（なので入力フォームも異なる）
 ```json
 //TODO: 色んな型があるので今はまだ決めきれない
 ```
@@ -142,6 +173,59 @@ graph TB
 銀行
 ----
 
+### 銀行(`Bank`)
+
+```json
+{
+    Id: 3,// Number,
+    Name: "銀行",// String,
+    Memo: "説明",// String,
+    ActualLogs: [],// ActualLog[]
+}
+```
+
+### 実残高(`ActualLog`)
+
+```json
+{
+    Id: 31,// Number,
+    YearMonth: "2026-05",// String
+    Amount: 10000,// Number
+}
+```
 
 収支
 ----
+
+### 収支一覧(`BalanceItems`)
+
+```json
+[]// BalanceItem[]
+```
+
+### 収支(`BalanceItem`)
+
+```json
+{
+    EntityId: 1,// Number,
+    EntitySortOrder: 1,// Number
+    EntityName: "カテゴリ",// String,
+    CategoryId: 11,// Number,
+    CategorySortOrder: 1,// Number
+    CategoryName: "カテゴリ",// String,
+    EventId: 111,// Number,
+    EventSortOrder: 1,// Number
+    EventName: "イベント",// String,
+    Balances: [],// Balance[]
+}
+```
+
+### 収支(`BalanceLog`)
+
+```json
+{
+    YearMonth: "2026-05",// String
+    VirtualAmount: 1000,// Number,
+    ActualAmount: 1000,// Number | Null,
+}
+```
