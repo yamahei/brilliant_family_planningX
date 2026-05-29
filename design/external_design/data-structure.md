@@ -61,6 +61,7 @@ graph TB
     EventFrom: "2022-05",// String
     EventTo: "2026-05",// String
     Amount: 1000,// Number,
+    BankId: 3,// Number | Null (nullの場合はDefaultBankIdを使用)
     Rules: [],// Rule[],
     PresetEventName: "PresetA:EntityB:CategoryC:EventD"//String | Null
 }
@@ -186,6 +187,10 @@ graph TB
 
 ### 実残高(`ActualLog`)
 
+- 実際の口座残高は、給料日の前後など、こちらでコントロールできない要因で変化するので、入力された残高は「月末残高」として扱う
+- 実際の銀行残高は、人間が入力するが、毎月必ず入力されることを期待しない
+- 入力された月から未来に向かって収支を累積する
+
 ```json
 {
     Id: 31,// Number,
@@ -224,6 +229,9 @@ graph TB
 
 ```json
 {
+    BankId: 3,// Number,
+    BankName: "銀行",// String,
+    BankMemo: "説明",// String,
     YearMonth: "2026-05",// String
     VirtualAmount: 1000,// Number,
     ActualAmount: 1000,// Number | Null,
