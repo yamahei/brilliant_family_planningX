@@ -14,12 +14,16 @@ brilliant_family_planningX
 
 ### 仕様書
 - 要件
-    - [機能要件](./design/requirements/functional.md)
-    - [非機能要件](./design/requirements/non-functional.md)
+  - [機能要件](./design/requirements/functional.md)
+  - [非機能要件](./design/requirements/non-functional.md)
 - 外部仕様
-    - [ビジネスロジック](./design/external_design/business-logic.md)
-    - [データ構造](./design/external_design/data-structure.md)
-    - [UI](./design/external_design/user-interface.md)
+  - [ビジネスロジック](./design/external_design/business-logic.md)
+  - [データ構造](./design/external_design/data-structure.md)
+  - [UI](./design/external_design/user-interface.md)
+- 品質管理（QA）
+  - [コアロジック](./design/QA/core-logic.md)
+  - [ビジネスロジック](./design/QA/business-logic.md)
+  - [UI](./design/QA/user-interface.md)
 
 ### 参考：過去の成果（未完）
 
