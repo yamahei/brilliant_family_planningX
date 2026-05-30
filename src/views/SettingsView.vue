@@ -1,18 +1,33 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useBfpStore } from '../store';
+import BankModal from '../components/BankModal.vue';
+import EventModal from '../components/EventModal.vue';
 
 const store = useBfpStore();
 const activeTab = ref<'banks' | 'events'>('banks');
 
-// --- 銀行タブ用のステートと関数 ---
 const showBankModal = ref(false);
-// TODO: 銀行の編集ロジック
-
-// --- 収支（イベント）タブ用のステートと関数 ---
 const showEventModal = ref(false);
-// TODO: イベントの編集ロジック
 
+const activeEntityId = ref<number | null>(null);
+const activeCategoryId = ref<number | null>(null);
+
+const openEventModal = (entityId: number, categoryId: number) => {
+  activeEntityId.value = entityId;
+  activeCategoryId.value = categoryId;
+  showEventModal.value = true;
+};
+
+const addEntity = () => {
+  const name = prompt('主体の名前を入力してください（例：家族全体、自分）：');
+  if (name) store.addEntity(name);
+};
+
+const addCategory = (entityId: number) => {
+  const name = prompt('カテゴリの名前を入力してください（例：固定費、娯楽）：');
+  if (name) store.addCategory(entityId, name);
+};
 </script>
 
 <template>
@@ -74,25 +89,25 @@ const showEventModal = ref(false);
         <div v-else-if="activeTab === 'events'" class="tab-pane" key="events">
           <div class="pane-header">
             <h2>主体と収支イベント</h2>
-            <button class="glass-button primary">＋ 主体を追加</button>
+            <button class="glass-button primary" @click="addEntity">＋ 主体を追加</button>
           </div>
 
           <div v-if="store.data.entities.length === 0" class="empty-list">
-            <p>主体が登録されていません。「家族全体」や「夫」「妻」などの主体を追加してください。</p>
+            <p>主体が登録されていません。「家族全体」や「自分」などの主体を追加してください。</p>
           </div>
           <div v-else class="kanban-board">
             <!-- Entity 列 -->
             <div v-for="entity in store.data.entities" :key="entity.id" class="kanban-column glass-panel">
               <div class="column-header">
                 <h3>{{ entity.name }}</h3>
-                <button class="icon-btn">＋ カテゴリ</button>
+                <button class="icon-btn" @click="addCategory(entity.id)">＋ カテゴリ</button>
               </div>
               
               <!-- Category ブロック -->
               <div v-for="category in entity.categories" :key="category.id" class="category-block">
                 <div class="category-header">
                   <h4>{{ category.name }}</h4>
-                  <button class="icon-btn sm" @click="showEventModal = true">＋</button>
+                  <button class="icon-btn sm" @click="openEventModal(entity.id, category.id)">＋ 収支</button>
                 </div>
                 
                 <!-- Event カード -->
@@ -105,8 +120,9 @@ const showEventModal = ref(false);
                       </span>
                     </div>
                     <div class="event-sub">
-                      <!-- TODO: 頻度の文字起こし -->
-                      <span class="event-rule">毎月</span>
+                      <span class="event-rule">
+                        {{ event.rules[0]?.type === 'SOMEMONTH' ? '毎月' : '特定月' }}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -116,6 +132,15 @@ const showEventModal = ref(false);
         </div>
       </transition>
     </main>
+
+    <!-- Modals -->
+    <BankModal :show="showBankModal" @close="showBankModal = false" />
+    <EventModal 
+      :show="showEventModal" 
+      :entity-id="activeEntityId" 
+      :category-id="activeCategoryId" 
+      @close="showEventModal = false" 
+    />
   </div>
 </template>
 

@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
 import DashboardView from '../views/DashboardView.vue';
 import TableView from '../views/TableView.vue';
-import SettingsView from '../views/SettingsView.vue';
+import BanksView from '../views/BanksView.vue';
+import EventsView from '../views/EventsView.vue';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -16,9 +17,14 @@ const routes: Array<RouteRecordRaw> = [
     component: TableView
   },
   {
-    path: '/settings',
-    name: 'Settings',
-    component: SettingsView
+    path: '/banks',
+    name: 'Banks',
+    component: BanksView
+  },
+  {
+    path: '/events',
+    name: 'Events',
+    component: EventsView
   }
 ];
 

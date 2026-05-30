@@ -24,9 +24,13 @@ onMounted(() => {
           <span class="icon">📅</span>
           シミュレーション表
         </router-link>
-        <router-link to="/settings" class="nav-item">
-          <span class="icon">⚙️</span>
-          家計の設定
+        <router-link to="/events" class="nav-item">
+          <span class="icon">💰</span>
+          収支の管理
+        </router-link>
+        <router-link to="/banks" class="nav-item">
+          <span class="icon">🏦</span>
+          銀行の管理
         </router-link>
       </div>
     </nav>
@@ -117,17 +121,20 @@ onMounted(() => {
 }
 
 /* Responsive Minimal Consideration */
-@media (max-width: 800px) {
+@media (max-width: 900px) {
   .app-layout {
     flex-direction: column;
   }
   .sidebar {
-    width: auto;
+    width: 100%;
     height: auto;
     position: static;
     flex-direction: column;
     padding: var(--sp-4);
+    margin: 0;
     gap: var(--sp-4);
+    border-radius: 0;
+    border-bottom: 1px solid var(--border-color);
   }
   .nav-links {
     flex-direction: row;
@@ -135,9 +142,10 @@ onMounted(() => {
     justify-content: center;
   }
   .nav-item {
-    flex: 1;
+    flex: 1 1 auto;
     justify-content: center;
     white-space: nowrap;
+    min-width: 120px;
   }
 }
 </style>

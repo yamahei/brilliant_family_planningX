@@ -1,7 +1,98 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useBfpStore } from '../store';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
+import { Line } from 'vue-chartjs';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const store = useBfpStore();
+
+// サマリ計算
+const currentMonthSummary = computed(() => {
+  const sim = store.currentSimulation;
+  if (!sim) return { income: 0, expense: 0, currentBalance: 0 };
+  
+  const now = new Date();
+  const currentYM = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+  
+  const currentEvents = sim.eventLogs.filter(e => e.yearmonth === currentYM);
+  const income = currentEvents.filter(e => e.amount > 0).reduce((sum, e) => sum + e.amount, 0);
+  const expense = currentEvents.filter(e => e.amount < 0).reduce((sum, e) => sum + Math.abs(e.amount), 0);
+  
+  const currentBalance = sim.bankBalanceLogs
+    .filter(b => b.yearmonth === currentYM)
+    .reduce((sum, b) => sum + (b.balance || 0), 0);
+    
+  return { income, expense, currentBalance };
+});
+
+// チャートデータ構築
+const chartData = computed(() => {
+  const sim = store.currentSimulation;
+  if (!sim) return { labels: [], datasets: [] };
+
+  // 1年分(12ヶ月)のラベルを生成
+  const labels = Array.from(new Set(sim.bankBalanceLogs.map(b => b.yearmonth))).slice(0, 24);
+
+  const datasets = store.data.banks.map((bank, index) => {
+    // プリセットカラー
+    const colors = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'];
+    const color = colors[index % colors.length];
+
+    const data = labels.map(ym => {
+      const log = sim.bankBalanceLogs.find(b => b.bankId === bank.id && b.yearmonth === ym);
+      return log?.balance ?? 0;
+    });
+
+    return {
+      label: bank.name,
+      backgroundColor: color,
+      borderColor: color,
+      data,
+      tension: 0.4
+    };
+  });
+
+  return { labels, datasets };
+});
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: {
+      labels: { color: '#f8fafc' }
+    }
+  },
+  scales: {
+    x: {
+      ticks: { color: '#94a3b8' },
+      grid: { color: 'rgba(255,255,255,0.05)' }
+    },
+    y: {
+      ticks: { color: '#94a3b8' },
+      grid: { color: 'rgba(255,255,255,0.05)' }
+    }
+  }
+};
 </script>
 
 <template>
@@ -33,21 +124,25 @@ const store = useBfpStore();
       <div class="summary-cards">
         <div class="card glass-panel">
           <h3>今月の予定収入</h3>
-          <p class="amount positive">¥0</p>
+          <p class="amount positive">¥{{ currentMonthSummary.income.toLocaleString() }}</p>
         </div>
         <div class="card glass-panel">
           <h3>今月の予定支出</h3>
-          <p class="amount negative">¥0</p>
+          <p class="amount negative">¥{{ currentMonthSummary.expense.toLocaleString() }}</p>
         </div>
         <div class="card glass-panel">
-          <h3>メインバンク残高</h3>
-          <p class="amount">¥1,000,000</p>
+          <h3>今月末の総残高予測</h3>
+          <p class="amount" :class="{ negative: currentMonthSummary.currentBalance < 0 }">
+            ¥{{ currentMonthSummary.currentBalance.toLocaleString() }}
+          </p>
         </div>
       </div>
 
       <div class="chart-container glass-panel">
-        <h3>残高推移チャート (近日実装)</h3>
-        <div class="placeholder-chart"></div>
+        <h3>向こう2年間の残高推移予測</h3>
+        <div class="chart-wrapper">
+          <Line :data="chartData" :options="chartOptions" />
+        </div>
       </div>
     </div>
   </div>
@@ -58,6 +153,7 @@ const store = useBfpStore();
   display: flex;
   flex-direction: column;
   gap: var(--sp-6);
+  height: 100%;
 }
 
 .page-header h1 {
@@ -76,6 +172,7 @@ const store = useBfpStore();
   justify-content: center;
   text-align: center;
   background: linear-gradient(180deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
+  border-radius: var(--radius-lg);
 }
 
 .empty-content {
@@ -109,6 +206,7 @@ const store = useBfpStore();
 
 .card {
   padding: var(--sp-6);
+  border-radius: var(--radius-lg);
 }
 
 .card h3 {
@@ -128,16 +226,20 @@ const store = useBfpStore();
 
 .chart-container {
   padding: var(--sp-6);
-  height: 400px;
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
+  gap: var(--sp-4);
 }
 
-.placeholder-chart {
-  flex: 1;
-  border: 1px dashed var(--border-color);
-  border-radius: var(--radius-md);
-  margin-top: var(--sp-4);
-  background: rgba(255, 255, 255, 0.02);
+.chart-container h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 400px;
+  width: 100%;
 }
 </style>
