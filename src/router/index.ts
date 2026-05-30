@@ -1,4 +1,5 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
 import DashboardView from '../views/DashboardView.vue';
 import TableView from '../views/TableView.vue';
 import SettingsView from '../views/SettingsView.vue';

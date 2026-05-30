@@ -1,4 +1,4 @@
-import { BFPRuleArg_Any } from "../core/rule/types";
+import type { BFPRuleArg_Any } from "../core/rule/types";
 
 export type BFPActualLog = {
   id: number;

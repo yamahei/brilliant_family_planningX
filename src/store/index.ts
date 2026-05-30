@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { BFPData, SimulationResult } from '../biz/types';
+import type { BFPData, SimulationResult } from '../biz/types';
 import { Simulator } from '../biz/Simulator';
 
 export const useBfpStore = defineStore('bfp', {
@@ -13,7 +13,7 @@ export const useBfpStore = defineStore('bfp', {
     isLoaded: false
   }),
   getters: {
-    hasData: (state) => state.banks.length > 0 || state.entities.length > 0,
+    hasData: (state) => state.data.banks.length > 0 || state.data.entities.length > 0,
     
     // 現在から10年分のシミュレーションを返す
     currentSimulation: (state): SimulationResult | null => {

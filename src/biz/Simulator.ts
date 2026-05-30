@@ -1,8 +1,8 @@
-import { BFPType_YearMonth } from "../core/rule/types";
+import type { BFPType_YearMonth } from "../core/rule/types";
 import { RuleYearMonths } from "../core/rule/RuleYearMonths";
 import { RuleSomeMonths } from "../core/rule/RuleSomeMonths";
 import { RuleSomeMonthStepYear } from "../core/rule/RuleSomeMonthStepYear";
-import { BFPData, BFPEvent, BFPEntity, SimulationResult, EventLog, BankBalanceLog, BFPRule, BFPBank, BFPActualLog } from "./types";
+import type { BFPData, BFPEvent, BFPEntity, SimulationResult, EventLog, BankBalanceLog, BFPRule, BFPBank, BFPActualLog } from "./types";
 
 export class Simulator {
     

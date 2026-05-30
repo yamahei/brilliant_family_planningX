@@ -102,8 +102,6 @@ onMounted(() => {
 .main-content {
   flex: 1;
   padding: var(--sp-4) var(--sp-6);
-  max-width: 1200px;
-  margin: 0 auto;
   width: 100%;
 }
 
@@ -116,5 +114,30 @@ onMounted(() => {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(10px);
+}
+
+/* Responsive Minimal Consideration */
+@media (max-width: 800px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: auto;
+    height: auto;
+    position: static;
+    flex-direction: column;
+    padding: var(--sp-4);
+    gap: var(--sp-4);
+  }
+  .nav-links {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .nav-item {
+    flex: 1;
+    justify-content: center;
+    white-space: nowrap;
+  }
 }
 </style>
