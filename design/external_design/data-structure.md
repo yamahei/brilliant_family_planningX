@@ -80,7 +80,7 @@ graph TB
         YearMonth: "2026-05",// String
         PresetRuleName: "PresetA:EntityB:CategoryC:EventD:Rule1"//String | Null
     }
-    ```
+<!-- SOME_MONTHSで代替できるので不要（廃止）
 1. 毎月：毎月発生する
    例）月給
     ```json
@@ -92,6 +92,7 @@ graph TB
         PresetRuleName: "PresetA:EntityB:CategoryC:EventD:Rule2"//String | Null
     }
     ```
+-->
 1. 毎年[m]月：毎年特定の月（複数可）に発生する
    例）ボーナス
     ```json
@@ -106,7 +107,7 @@ graph TB
     ```
 1. y年ごと毎年[m]月：y年ごと特定の月（複数可）に発生する
    例）車検
-   ※「y年ごと」：`y=0`は毎年と同じ意味、`y=1`は隔年と同じ意味
+   ※「y年ごと」：`y=1`は毎年と同じ意味、`y=0`はエラー
     ```json
     {
         Id: 1114,// Number,
@@ -127,12 +128,12 @@ graph TB
 ```json
 {
     Id: 2,// Number,
-    Name: "イベント",// String,
-    Memo: "プリセット",// String,
+    Name: "プリセット",// String,
+    Memo: "説明",// String,
     Entities: [{
         Id: 21,// Number,
         SortOrder: 1,// Number
-        Name: "カテゴリ",// String,
+        Name: "主体",// String,
         Memo: "説明",// String,
         EntityFrom: "2022-05",// String
         EntityTo: "2026-05",// String

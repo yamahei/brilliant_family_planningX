@@ -9,6 +9,24 @@ brilliant_family_planningX
 - Webアプリだが、データはブラウザのIndexedDBに保存される（API通信なしのSPA）
 - 過去何度か開発して、毎回頓挫しているので、今度こそ完成させる
 
+使い方
+------
+
+### 開発環境のセットアップ
+
+Node.js (v18以降推奨) がインストールされている環境で、以下のコマンドを実行してください。
+
+```bash
+# 依存関係のインストール
+npm install
+
+# ユニットテストの実行（コアロジック等）
+npm run test
+
+# ローカル開発サーバーの起動（UI実装時に使用）
+npm run dev
+```
+
 外部仕様・概要設計
 ----------------
 
@@ -26,6 +44,9 @@ brilliant_family_planningX
   - [UI](./design/QA/user-interface.md)
 
 ### 参考：過去の成果（未完）
+
+> [!CAUTION]
+> 【読み取り専用】過去の未完成の成果です。信じすぎてはいけません。あくまで今の目標を達成するための参考情報です。
 
 #### 過去頓挫①: [brilliant_family_planning](https://github.com/yamahei/brilliant_family_planning)
 - submoduleとして`gfm1/`にclone
